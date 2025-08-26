@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { MICROSERVICES_CLIENTS } from 'src/constants';
 
@@ -8,6 +8,11 @@ export class OrdersController {
     @Inject(MICROSERVICES_CLIENTS.ORDER_SERVICE)
     private orderServiceClient: ClientProxy,
   ) {}
+
+  @Get()
+  getOrders() {
+    return this.orderServiceClient.send('get_orders', {});
+  }
 
   @Post()
   createOrder(@Body() order: any) {
